@@ -159,21 +159,7 @@ So in practice this is a **"control switch/relay #0 over BLE"** tool. The Outdoo
 | Sensors (H&T Gen3, BLU sensors, …) | **No** | No switch component to control |
 | Wave (Z-Wave) devices | **No** | Different protocol; no Shelly BLE RPC |
 
-BLE must be enabled on the device (Settings → Bluetooth in the web UI). Wave devices are out of scope entirely.
-
-### Should you add support for other Gen3 types?
-
-**Probably not yet**, unless you have a concrete use case.
-
-| Approach | Worth it? | Why |
-|----------|-----------|-----|
-| `--switch-id N` for multi-relay devices | **Yes, low effort** | Same `Switch.*` API; easy to test on your plug (always id `0`) and likely works on dual-relay devices |
-| Generic `rpc` command (pass any method + JSON params) | **Yes, medium effort** | Reuses the existing `send_rpc()` layer; you can probe unknown devices without guessing CLI actions |
-| Built-in dimmer / cover / sensor commands | **Only if you own the hardware** | RPC method names and params differ per component type; without a device to test, errors are likely and hard to debug |
-
-Shelly's RPC surface is well documented, so unvalidated code might *work*, but you would be shipping behavior you cannot verify. A small, honest extension (switch id + raw RPC) gives flexibility without maintaining a matrix of untested device profiles.
-
-**Recommendation:** keep the current relay-focused CLI for your plug; add `--switch-id` and/or a `rpc` subcommand when you need broader coverage — not a full dimmer/cover implementation until you can test on real hardware.
+BLE must be enabled on the device (Settings → Bluetooth in the web UI).
 
 ## Troubleshooting
 
